@@ -31,6 +31,72 @@ string Expression::reverseExpression(string str)
             --i;
             res = digit + res;
         }
+        else if (str[i] == 'L')
+        {
+            string smallFunc = "";
+            while (str[i] != ')')
+            {
+                smallFunc += str[i];
+                ++i;
+            }
+            smallFunc += str[i];
+            res = smallFunc + res;
+        }
+        else if (str[i] == 'S')
+        {
+            string smallFunc = "";
+            while (str[i] != ')')
+            {
+                smallFunc += str[i];
+                ++i;
+            }
+            smallFunc += str[i];
+            res = smallFunc + res;
+        }
+        else if (str[i] == 's')
+        {
+            string smallFunc = "";
+            while (str[i] != ')')
+            {
+                smallFunc += str[i];
+                ++i;
+            }
+            smallFunc += str[i];
+            res = smallFunc + res;
+        }
+        else if (str[i] == 'c')
+        {
+            string smallFunc = "";
+            while (str[i] != ')')
+            {
+                smallFunc += str[i];
+                ++i;
+            }
+            smallFunc += str[i];
+            res = smallFunc + res;
+        }
+        else if (str[i] == 't')
+        {
+            string smallFunc = "";
+            while (str[i] != ')')
+            {
+                smallFunc += str[i];
+                ++i;
+            }
+            smallFunc += str[i];
+            res = smallFunc + res;
+        }
+        else if (str[i] == 'e')
+        {
+            string smallFunc = "";
+            while (str[i] != ')')
+            {
+                smallFunc += str[i];
+                ++i;
+            }
+            smallFunc += str[i];
+            res = smallFunc + res;
+        }
         else
             res = str[i] + res;
     }

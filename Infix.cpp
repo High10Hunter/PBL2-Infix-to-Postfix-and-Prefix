@@ -1,27 +1,90 @@
 #include <bits/stdc++.h>
 #include "Infix.h"
+#include "transcendentalFunc.h"
 using namespace std;
 
-void Infix::infixToPostfix()
+string Infix::infixToPostfix()
 {
     stack<char> stk;
     string result = "";
 
-    for (int i = 0; i < (this->getExpr()).length(); i++)
+    string expr = this->getExpr();
+
+    for (int i = 0; i < expr.length(); i++)
     {
-        if (isdigit((this->getExpr())[i]))
+        if (isdigit(expr[i]))
         {
-            while (isdigit((this->getExpr())[i]))
+            while (isdigit(expr[i]))
             {
-                result += (this->getExpr())[i];
+                result += expr[i];
                 ++i;
             }
             result += ' ';
             --i;
         }
-        else if ((this->getExpr())[i] == '(')
+        else if (expr[i] == 'L')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == 'S')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == 's')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == 'c')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == 't')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == 'e')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == '(')
             stk.push('(');
-        else if ((this->getExpr())[i] == ')')
+        else if (expr[i] == ')')
         {
             while (stk.top() != '(')
             {
@@ -37,11 +100,11 @@ void Infix::infixToPostfix()
             }
             stk.pop();
         }
-        else if (isOperator((this->getExpr())[i]))
+        else if (isOperator(expr[i]))
         {
-            while (!stk.empty() && priority((this->getExpr())[i]) <= priority(stk.top()))
+            while (!stk.empty() && priority(expr[i]) <= priority(stk.top()))
             {
-                if ((this->getExpr())[i] == '^' && stk.top() != '^')
+                if (expr[i] == '^' && stk.top() != '^')
                     break;
                 else
                 {
@@ -50,13 +113,13 @@ void Infix::infixToPostfix()
                     stk.pop();
                 }
             }
-            stk.push((this->getExpr())[i]);
+            stk.push(expr[i]);
         }
         else
         {
             cout << "Invalid input !" << endl;
             this->setValid(false);
-            return;
+            return "";
         }
     }
 
@@ -67,31 +130,95 @@ void Infix::infixToPostfix()
         stk.pop();
     }
 
-    this->setExpr(result);
+    // this->setExpr(result);
+    return result;
 }
 
-void Infix::infixToPrefix()
+string Infix::infixToPrefix()
 {
-    this->setExpr(reverseExpression(this->getExpr()));
+    // this->setExpr(reverseExpression(this->getExpr()));
+    string expr = reverseExpression(this->getExpr());
 
     stack<char> stk;
     string result = "";
 
-    for (int i = 0; i < (this->getExpr()).length(); i++)
+    // string expr = this->getExpr();
+
+    for (int i = 0; i < expr.length(); i++)
     {
-        if (isdigit((this->getExpr())[i]))
+        if (isdigit(expr[i]))
         {
-            while (isdigit((this->getExpr())[i]))
+            while (isdigit(expr[i]))
             {
-                result += (this->getExpr())[i];
+                result += expr[i];
                 ++i;
             }
             result += ' ';
             --i;
         }
-        else if ((this->getExpr())[i] == ')')
-            stk.push((this->getExpr())[i]);
-        else if ((this->getExpr())[i] == '(')
+        else if (expr[i] == 'L')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == 'S')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == 's')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == 'c')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == 't')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == 'e')
+        {
+            while (expr[i] != ')')
+            {
+                result += expr[i];
+                ++i;
+            }
+            result += expr[i];
+            result += ' ';
+        }
+        else if (expr[i] == ')')
+            stk.push(expr[i]);
+        else if (expr[i] == '(')
         {
             while (!stk.empty() && stk.top() != ')')
             {
@@ -107,11 +234,11 @@ void Infix::infixToPrefix()
             }
             stk.pop();
         }
-        else if (Infix::isOperator((this->getExpr())[i]))
+        else if (Infix::isOperator(expr[i]))
         {
-            if ((this->getExpr())[i] == '^')
+            if (expr[i] == '^')
             {
-                while (!stk.empty() && Infix::priority((this->getExpr())[i]) <= Infix::priority(stk.top()))
+                while (!stk.empty() && Infix::priority(expr[i]) <= Infix::priority(stk.top()))
                 {
                     result += stk.top();
                     result += ' ';
@@ -120,14 +247,14 @@ void Infix::infixToPrefix()
             }
             else
             {
-                while (!stk.empty() && Infix::priority((this->getExpr())[i]) < Infix::priority(stk.top()))
+                while (!stk.empty() && Infix::priority(expr[i]) < Infix::priority(stk.top()))
                 {
                     result += stk.top();
                     result += ' ';
                     stk.pop();
                 }
             }
-            stk.push((this->getExpr())[i]);
+            stk.push(expr[i]);
         }
         else
         {
@@ -146,29 +273,146 @@ void Infix::infixToPrefix()
     result = reverseExpression(result);
     result.erase(0, 1);
 
-    this->setExpr(result);
+    // this->setExpr(result);
+    return result;
 }
 
 double Infix::evaluatePrefix()
 {
     stack<double> stk;
 
-    for (int i = (this->getExpr()).length() - 1; i >= 0; i--)
+    string expr = this->infixToPrefix();
+
+    for (int i = expr.length() - 1; i >= 0; i--)
     {
-        if ((this->getExpr())[i] == ' ')
+        if (expr[i] == ' ')
             continue;
-        if (isdigit((this->getExpr())[i]))
+        if (isdigit(expr[i]))
         {
             double number = 0;
             int j = i;
-            while (i < (this->getExpr()).length() && isdigit((this->getExpr())[i]))
+            while (i < expr.length() && isdigit(expr[i]))
                 --i;
             ++i;
 
             for (int k = i; k <= j; k++)
-                number = number * 10 + double((this->getExpr())[k] - '0');
+                number = number * 10 + double(expr[k] - '0');
 
             stk.push(number);
+        }
+        else if (expr[i] == ')')
+        {
+            string tempFunc = "";
+            while (expr[i] != ' ' && i >= 0)
+            {
+                tempFunc = expr[i] + tempFunc;
+                --i;
+            }
+            ++i;
+            if (tempFunc[0] == 'L')
+            {
+                int k = 4;
+                double r = 0;
+                while (tempFunc[k] != ',')
+                {
+                    r = r * 10 + double(tempFunc[k] - '0');
+                    ++k;
+                }
+                ++k;
+                double n = 0;
+                while (tempFunc[k] != ')')
+                {
+                    n = n * 10 + double(tempFunc[k] - '0');
+                    ++k;
+                }
+
+                double number = Log(r, n);
+                stk.push(number);
+            }
+            else if (tempFunc[0] == 's')
+            {
+                if (tempFunc[1] == 'i')
+                {
+                    int k = 4;
+                    double n = 0;
+                    while (tempFunc[k] != ')')
+                    {
+                        n = n * 10 + double(tempFunc[k] - '0');
+                        ++k;
+                    }
+
+                    double number = sin(n);
+                    stk.push(number);
+                }
+                else if (tempFunc[1] == 'q')
+                {
+                    int k = 5;
+                    double n = 0;
+                    while (tempFunc[k] != ')')
+                    {
+                        n = n * 10 + double(tempFunc[k] - '0');
+                        ++k;
+                    }
+
+                    double number = sqrt(n);
+                    stk.push(number);
+                }
+            }
+            else if (tempFunc[0] == 'c')
+            {
+                if (tempFunc[2] == 's')
+                {
+                    int k = 4;
+                    double n = 0;
+                    while (tempFunc[k] != ')')
+                    {
+                        n = n * 10 + double(tempFunc[k] - '0');
+                        ++k;
+                    }
+
+                    double number = cos(n);
+                    stk.push(number);
+                }
+                else if (tempFunc[2] == 't')
+                {
+                    int k = 4;
+                    double n = 0;
+                    while (tempFunc[k] != ')')
+                    {
+                        n = n * 10 + double(tempFunc[k] - '0');
+                        ++k;
+                    }
+
+                    double number = cot(n);
+                    stk.push(number);
+                }
+            }
+            else if (tempFunc[0] == 't')
+            {
+                int k = 4;
+                double n = 0;
+                while (tempFunc[k] != ')')
+                {
+                    n = n * 10 + double(tempFunc[k] - '0');
+                    ++k;
+                }
+
+                double number = tan(n);
+                stk.push(number);
+            }
+            else if (tempFunc[0] == 'e')
+            {
+                int k = 4;
+                double n = 0;
+                while (tempFunc[k] != ')')
+                {
+                    n = n * 10 + double(tempFunc[k] - '0');
+                    ++k;
+                }
+
+                double number = exp(n);
+                stk.push(number);
+            }
         }
         else
         {
@@ -176,7 +420,7 @@ double Infix::evaluatePrefix()
             stk.pop();
             double r = stk.top();
             stk.pop();
-            Infix::calculateOp(stk, (this->getExpr())[i], l, r);
+            Infix::calculateOp(stk, expr[i], l, r);
         }
     }
 
@@ -187,22 +431,139 @@ double Infix::evaluatePostfix()
 {
     stack<double> stk;
 
-    for (int i = 0; i < (this->getExpr()).length(); i++)
+    string expr = this->infixToPostfix();
+
+    for (int i = 0; i < expr.length(); i++)
     {
-        if ((this->getExpr())[i] == ' ')
+        if (expr[i] == ' ')
             continue;
-        if (isdigit((this->getExpr())[i]))
+        if (isdigit(expr[i]))
         {
             double number = 0;
 
-            while (isdigit((this->getExpr())[i]))
+            while (isdigit(expr[i]))
             {
-                number = number * 10 + double((this->getExpr())[i] - '0');
+                number = number * 10 + double(expr[i] - '0');
                 ++i;
             }
             --i;
 
             stk.push(number);
+        }
+        else if (isalpha(expr[i]))
+        {
+            string tempFunc = "";
+            while (expr[i] != ')' && i < expr.length())
+            {
+                tempFunc += expr[i];
+                ++i;
+            }
+            tempFunc += expr[i];
+
+            if (tempFunc[0] == 'L')
+            {
+                int k = 4;
+                double r = 0;
+                while (tempFunc[k] != ',')
+                {
+                    r = r * 10 + double(tempFunc[k] - '0');
+                    ++k;
+                }
+                ++k;
+                double n = 0;
+                while (tempFunc[k] != ')')
+                {
+                    n = n * 10 + double(tempFunc[k] - '0');
+                    ++k;
+                }
+
+                double number = Log(r, n);
+                stk.push(number);
+            }
+            else if (tempFunc[0] == 's')
+            {
+                if (tempFunc[1] == 'i')
+                {
+                    int k = 4;
+                    double n = 0;
+                    while (tempFunc[k] != ')')
+                    {
+                        n = n * 10 + double(tempFunc[k] - '0');
+                        ++k;
+                    }
+
+                    double number = sin(n);
+                    stk.push(number);
+                }
+                else if (tempFunc[1] == 'q')
+                {
+                    int k = 5;
+                    double n = 0;
+                    while (tempFunc[k] != ')')
+                    {
+                        n = n * 10 + double(tempFunc[k] - '0');
+                        ++k;
+                    }
+
+                    double number = sqrt(n);
+                    stk.push(number);
+                }
+            }
+            else if (tempFunc[0] == 'c')
+            {
+                if (tempFunc[2] == 's')
+                {
+                    int k = 4;
+                    double n = 0;
+                    while (tempFunc[k] != ')')
+                    {
+                        n = n * 10 + double(tempFunc[k] - '0');
+                        ++k;
+                    }
+
+                    double number = cos(n);
+                    stk.push(number);
+                }
+                else if (tempFunc[2] == 't')
+                {
+                    int k = 4;
+                    double n = 0;
+                    while (tempFunc[k] != ')')
+                    {
+                        n = n * 10 + double(tempFunc[k] - '0');
+                        ++k;
+                    }
+
+                    double number = cot(n);
+                    stk.push(number);
+                }
+            }
+            else if (tempFunc[0] == 't')
+            {
+                int k = 4;
+                double n = 0;
+                while (tempFunc[k] != ')')
+                {
+                    n = n * 10 + double(tempFunc[k] - '0');
+                    ++k;
+                }
+
+                double number = tan(n);
+                stk.push(number);
+            }
+            else if (tempFunc[0] == 'e')
+            {
+                int k = 4;
+                double n = 0;
+                while (tempFunc[k] != ')')
+                {
+                    n = n * 10 + double(tempFunc[k] - '0');
+                    ++k;
+                }
+
+                double number = exp(n);
+                stk.push(number);
+            }
         }
         else
         {
@@ -210,7 +571,7 @@ double Infix::evaluatePostfix()
             stk.pop();
             double l = stk.top();
             stk.pop();
-            Infix::calculateOp(stk, (this->getExpr())[i], l, r);
+            Infix::calculateOp(stk, expr[i], l, r);
         }
     }
 

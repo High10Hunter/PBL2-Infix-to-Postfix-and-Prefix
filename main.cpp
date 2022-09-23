@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include "Expression.cpp"
 #include "Infix.cpp"
+#include "transcendentalFunc.h"
 using namespace std;
 
 int main()
@@ -12,21 +13,20 @@ int main()
     {
         expr.outputExpr();
         cout << endl;
-        //
-        //        cout << "Postfix: ";
-        //        expr.infixToPostfix();
-        //        expr.outputExpr();
-        //        cout << endl;
-        //        cout << "Value of expression: ";
-        //        cout << expr.evaluatePostfix();
-        //        cout << endl;
 
-        // cout << "Prefix: ";
-        // expr.infixToPrefix();
-        // expr.outputExpr();
-        // cout << endl;
-        // cout << "Value of expression: ";
-        // cout << expr.evaluatePrefix();
+        cout << "Postfix: ";
+        cout << expr.infixToPostfix();
+        cout << endl;
+        cout << "Value of expression: ";
+        cout << expr.evaluatePostfix();
+        cout << endl;
+
+        cout << "Prefix: ";
+        cout << expr.infixToPrefix();
+        cout << endl;
+        cout << "Value of expression: ";
+        cout << expr.evaluatePrefix();
+        cout << endl;
     }
     else
         cout << "Invalid input !" << endl;

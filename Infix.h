@@ -8,8 +8,8 @@ using namespace std;
 class Infix : public Expression
 {
 public:
-    void infixToPostfix();
-    void infixToPrefix();
+    string infixToPostfix();
+    string infixToPrefix();
     double evaluatePrefix();
     double evaluatePostfix();
 };

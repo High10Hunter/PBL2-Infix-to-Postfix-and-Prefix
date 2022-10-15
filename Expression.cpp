@@ -1,6 +1,11 @@
 #include <bits/stdc++.h>
-#include <regex>
 #include "Expression.h"
+#include <windows.h>
+#include <tchar.h>
+#include <conio.h>
+#include "drawGUI.cpp"
+#include "mylib.cpp"
+
 using namespace std;
 
 string Expression::removeBlankSpace(string str)
@@ -42,7 +47,7 @@ string Expression::reverseExpression(string str)
             smallFunc += str[i];
             res = smallFunc + res;
         }
-        else if (str[i] == 'S')
+        else if (str[i] == 'a')
         {
             string smallFunc = "";
             while (str[i] != ')')
@@ -115,30 +120,101 @@ string Expression::getExpr()
 
 void Expression::inputExpr()
 {
-    getline(cin, this->expr);
-    // regex rgx("^(\\d|\\()([0-9\\s\\+\\-\\*\\/\\^()])*(\\d|\\))$");
-    //  if (!regex_match(this->expr, rgx))
-    //  {
-    //      this->valid = false;
-    //      return;
-    //  }
-    this->setExpr(removeBlankSpace(this->getExpr()));
+    // getline(cin, this->expr);
+    // this->setExpr(removeBlankSpace(this->getExpr()));
+
+    // ShowCur(true);
+    string result = "";
+    int nSpace = 0;
+    int count = 0;
+
+    while (true)
+    {
+        while (_kbhit())
+        {
+            int kb_hit = _getch();
+            string validateChar = "Logsincostancotexpsqrtarc()+-/*^,.";
+            if ((validateChar.find(kb_hit) != string::npos) || (kb_hit == SPACE) || (kb_hit >= 48 && kb_hit <= 57) && count < 105 && count >= 0)
+            {
+                if (nSpace == 1 && kb_hit == SPACE)
+                {
+                    count++;
+                    cout << (char)kb_hit;
+                    result += (char)kb_hit;
+                    nSpace = 0;
+                }
+                else if (kb_hit != SPACE)
+                {
+                    count++;
+                    cout << (char)kb_hit;
+                    result += (char)kb_hit;
+                    nSpace = 1;
+                }
+            }
+            else if (kb_hit == ENTER)
+            {
+                this->setExpr(removeBlankSpace(result));
+                return;
+            }
+            else if (kb_hit == BACKSPACE && count > 0)
+            {
+                cout << "\b"
+                     << " "
+                     << "\b";
+                count--;
+                result.erase(result.length() - 1, 1);
+            }
+            else if (kb_hit == ESC)
+            {
+                result = "";
+                this->setExpr(removeBlankSpace(result));
+                return;
+            }
+        }
+    }
+}
+
+void Expression::inputExprFile()
+{
+    fstream file;
+    string word, filename;
+
+    cout << "Enter your file name: ";
+    cin >> filename;
+
+    string temp = "";
+
+    file.open(filename.c_str());
+
+    while (file >> word)
+    {
+        temp += word;
+    }
+
+    string result = "";
+    string validateChar = "Logsincostancotexpsqrtarc()+-/*^,.";
+    for (int i = 0; i < temp.length(); i++)
+    {
+        if ((validateChar.find(temp[i]) != string::npos) || ((int)temp[i] >= 48 && (int)temp[i] <= 57))
+        {
+            result += temp[i];
+        }
+        else
+        {
+            cout << "Invalid input !";
+            result = "";
+            this->setExpr(result);
+            return;
+        }
+    }
+
+    file.close();
+    this->setExpr(result);
 }
 
 void Expression::outputExpr()
 {
-    if (valid)
-        cout << expr;
-}
-
-bool Expression::isValid()
-{
-    return this->valid;
-}
-
-void Expression::setValid(bool check)
-{
-    this->valid = check;
+    cout << expr;
 }
 
 int Expression::priority(char c)
@@ -160,7 +236,7 @@ bool Expression::isOperator(char c)
     return false;
 }
 
-void Expression::calculateOp(stack<double> &stk, char op, double l, double r)
+void Expression::calculateOp(stack<long double> &stk, char op, long double l, long double r)
 {
     switch (op)
     {

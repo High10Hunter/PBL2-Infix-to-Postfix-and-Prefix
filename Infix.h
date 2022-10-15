@@ -10,8 +10,8 @@ class Infix : public Expression
 public:
     string infixToPostfix();
     string infixToPrefix();
-    double evaluatePrefix();
-    double evaluatePostfix();
+    long double evaluatePrefix();
+    long double evaluatePostfix();
 };
 
 #endif

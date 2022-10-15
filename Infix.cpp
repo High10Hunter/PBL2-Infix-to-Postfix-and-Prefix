@@ -14,7 +14,7 @@ string Infix::infixToPostfix()
     {
         if (isdigit(expr[i]))
         {
-            while (isdigit(expr[i]))
+            while (isdigit(expr[i]) || expr[i] == '.')
             {
                 result += expr[i];
                 ++i;
@@ -32,7 +32,7 @@ string Infix::infixToPostfix()
             result += expr[i];
             result += ' ';
         }
-        else if (expr[i] == 'S')
+        else if (expr[i] == 'a')
         {
             while (expr[i] != ')')
             {
@@ -95,7 +95,6 @@ string Infix::infixToPostfix()
                 if (stk.empty())
                 {
                     cout << "Invalid input !" << endl;
-                    this->setValid(false);
                 }
             }
             stk.pop();
@@ -118,7 +117,6 @@ string Infix::infixToPostfix()
         else
         {
             cout << "Invalid input !" << endl;
-            this->setValid(false);
             return "";
         }
     }
@@ -143,12 +141,11 @@ string Infix::infixToPrefix()
     string result = "";
 
     // string expr = this->getExpr();
-
     for (int i = 0; i < expr.length(); i++)
     {
         if (isdigit(expr[i]))
         {
-            while (isdigit(expr[i]))
+            while (isdigit(expr[i]) || expr[i] == '.')
             {
                 result += expr[i];
                 ++i;
@@ -166,7 +163,7 @@ string Infix::infixToPrefix()
             result += expr[i];
             result += ' ';
         }
-        else if (expr[i] == 'S')
+        else if (expr[i] == 'a')
         {
             while (expr[i] != ')')
             {
@@ -229,7 +226,6 @@ string Infix::infixToPrefix()
                 if (stk.empty())
                 {
                     cout << "Invalid input !" << endl;
-                    this->setValid(false);
                 }
             }
             stk.pop();
@@ -259,7 +255,6 @@ string Infix::infixToPrefix()
         else
         {
             cout << "Invalid input !" << endl;
-            this->setValid(false);
         }
     }
 
@@ -277,9 +272,9 @@ string Infix::infixToPrefix()
     return result;
 }
 
-double Infix::evaluatePrefix()
+long double Infix::evaluatePrefix()
 {
-    stack<double> stk;
+    stack<long double> stk;
 
     string expr = this->infixToPrefix();
 
@@ -289,16 +284,18 @@ double Infix::evaluatePrefix()
             continue;
         if (isdigit(expr[i]))
         {
-            double number = 0;
+            // long double number = 0;
+            string number = "";
             int j = i;
-            while (i < expr.length() && isdigit(expr[i]))
+            while (i < expr.length() && (isdigit(expr[i]) || expr[i] == '.'))
                 --i;
             ++i;
 
             for (int k = i; k <= j; k++)
-                number = number * 10 + double(expr[k] - '0');
+                // number = number * 10 + long double(expr[k] - '0');
+                number += expr[k];
 
-            stk.push(number);
+            stk.push(stold(number));
         }
         else if (expr[i] == ')')
         {
@@ -312,21 +309,25 @@ double Infix::evaluatePrefix()
             if (tempFunc[0] == 'L')
             {
                 int k = 4;
-                double r = 0;
+                // long double r = 0;
+                string r = "";
                 while (tempFunc[k] != ',')
                 {
-                    r = r * 10 + double(tempFunc[k] - '0');
+                    // r = r * 10 + long double(tempFunc[k] - '0');
+                    r += tempFunc[k];
                     ++k;
                 }
                 ++k;
-                double n = 0;
+                // long double n = 0;
+                string n = "";
                 while (tempFunc[k] != ')')
                 {
-                    n = n * 10 + double(tempFunc[k] - '0');
+                    // n = n * 10 + long double(tempFunc[k] - '0');
+                    n += tempFunc[k];
                     ++k;
                 }
 
-                double number = Log(r, n);
+                long double number = Log(stold(r), stold(n));
                 stk.push(number);
             }
             else if (tempFunc[0] == 's')
@@ -334,27 +335,31 @@ double Infix::evaluatePrefix()
                 if (tempFunc[1] == 'i')
                 {
                     int k = 4;
-                    double n = 0;
+                    // long double n = 0;
+                    string n = "";
                     while (tempFunc[k] != ')')
                     {
-                        n = n * 10 + double(tempFunc[k] - '0');
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
                         ++k;
                     }
 
-                    double number = sin(n);
+                    long double number = sin(convertToRadian(stold(n)));
                     stk.push(number);
                 }
                 else if (tempFunc[1] == 'q')
                 {
                     int k = 5;
-                    double n = 0;
+                    // long double n = 0;
+                    string n = "";
                     while (tempFunc[k] != ')')
                     {
-                        n = n * 10 + double(tempFunc[k] - '0');
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
                         ++k;
                     }
 
-                    double number = sqrt(n);
+                    long double number = sqrt(stold(n));
                     stk.push(number);
                 }
             }
@@ -363,62 +368,132 @@ double Infix::evaluatePrefix()
                 if (tempFunc[2] == 's')
                 {
                     int k = 4;
-                    double n = 0;
+                    // long double n = 0;
+                    string n = "";
                     while (tempFunc[k] != ')')
                     {
-                        n = n * 10 + double(tempFunc[k] - '0');
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
                         ++k;
                     }
 
-                    double number = cos(n);
+                    long double number = cos(convertToRadian(stold(n)));
                     stk.push(number);
                 }
                 else if (tempFunc[2] == 't')
                 {
                     int k = 4;
-                    double n = 0;
+                    // long double n = 0;
+                    string n = "";
                     while (tempFunc[k] != ')')
                     {
-                        n = n * 10 + double(tempFunc[k] - '0');
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
                         ++k;
                     }
 
-                    double number = cot(n);
+                    long double number = cot(convertToRadian(stold(n)));
                     stk.push(number);
                 }
             }
             else if (tempFunc[0] == 't')
             {
                 int k = 4;
-                double n = 0;
+                // long double n = 0;
+                string n = "";
                 while (tempFunc[k] != ')')
                 {
-                    n = n * 10 + double(tempFunc[k] - '0');
+                    // n = n * 10 + long double(tempFunc[k] - '0');
+                    n += tempFunc[k];
                     ++k;
                 }
 
-                double number = tan(n);
+                long double number = tan(convertToRadian(stold(n)));
                 stk.push(number);
             }
             else if (tempFunc[0] == 'e')
             {
                 int k = 4;
-                double n = 0;
+                // long double n = 0;
+                string n = "";
                 while (tempFunc[k] != ')')
                 {
-                    n = n * 10 + double(tempFunc[k] - '0');
+                    // n = n * 10 + long double(tempFunc[k] - '0');
+                    n += tempFunc[k];
                     ++k;
                 }
 
-                double number = exp(n);
+                long double number = exp(stold(n));
                 stk.push(number);
+            }
+            else if (tempFunc[0] == 'a') // arcsin(x), arccos, arctan, arccot
+            {
+                if (tempFunc[3] == 's')
+                {
+                    int k = 7;
+                    string n = "";
+                    while (tempFunc[k] != ')')
+                    {
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
+                        ++k;
+                    }
+
+                    long double number = asin(stold(n));
+                    stk.push(number);
+                }
+                else if (tempFunc[3] == 't')
+                {
+                    int k = 7;
+                    string n = "";
+                    while (tempFunc[k] != ')')
+                    {
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
+                        ++k;
+                    }
+
+                    long double number = atan(stold(n));
+                    stk.push(number);
+                }
+                else if (tempFunc[3] == 'c')
+                {
+                    if (tempFunc[5] == 's')
+                    {
+                        int k = 7;
+                        string n = "";
+                        while (tempFunc[k] != ')')
+                        {
+                            // n = n * 10 + long double(tempFunc[k] - '0');
+                            n += tempFunc[k];
+                            ++k;
+                        }
+
+                        long double number = acos(stold(n));
+                        stk.push(number);
+                    }
+                    else if (tempFunc[5] == 't')
+                    {
+                        int k = 7;
+                        string n;
+                        while (tempFunc[k] != ')')
+                        {
+                            // n = n * 10 + long double(tempFunc[k] - '0');
+                            n += tempFunc[k];
+                            ++k;
+                        }
+
+                        long double number = acot(stold(n));
+                        stk.push(number);
+                    }
+                }
             }
         }
         else
         {
-            double l = stk.top();
+            long double l = stk.top();
             stk.pop();
-            double r = stk.top();
+            long double r = stk.top();
             stk.pop();
             Infix::calculateOp(stk, expr[i], l, r);
         }
@@ -427,9 +502,9 @@ double Infix::evaluatePrefix()
     return stk.top();
 }
 
-double Infix::evaluatePostfix()
+long double Infix::evaluatePostfix()
 {
-    stack<double> stk;
+    stack<long double> stk;
 
     string expr = this->infixToPostfix();
 
@@ -439,16 +514,17 @@ double Infix::evaluatePostfix()
             continue;
         if (isdigit(expr[i]))
         {
-            double number = 0;
+            string number = "";
 
-            while (isdigit(expr[i]))
+            while (isdigit(expr[i]) || expr[i] == '.')
             {
-                number = number * 10 + double(expr[i] - '0');
+                // number = number * 10 + long double(expr[i] - '0');
+                number += expr[i];
                 ++i;
             }
             --i;
 
-            stk.push(number);
+            stk.push(stold(number));
         }
         else if (isalpha(expr[i]))
         {
@@ -463,21 +539,25 @@ double Infix::evaluatePostfix()
             if (tempFunc[0] == 'L')
             {
                 int k = 4;
-                double r = 0;
+                // long double r = 0;
+                string r = "";
                 while (tempFunc[k] != ',')
                 {
-                    r = r * 10 + double(tempFunc[k] - '0');
+                    // r = r * 10 + long double(tempFunc[k] - '0');
+                    r += tempFunc[k];
                     ++k;
                 }
                 ++k;
-                double n = 0;
+                // long double n = 0;
+                string n = "";
                 while (tempFunc[k] != ')')
                 {
-                    n = n * 10 + double(tempFunc[k] - '0');
+                    // n = n * 10 + long double(tempFunc[k] - '0');
+                    n += tempFunc[k];
                     ++k;
                 }
 
-                double number = Log(r, n);
+                long double number = Log(stold(r), stold(n));
                 stk.push(number);
             }
             else if (tempFunc[0] == 's')
@@ -485,27 +565,31 @@ double Infix::evaluatePostfix()
                 if (tempFunc[1] == 'i')
                 {
                     int k = 4;
-                    double n = 0;
+                    // long double n = 0;
+                    string n = "";
                     while (tempFunc[k] != ')')
                     {
-                        n = n * 10 + double(tempFunc[k] - '0');
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
                         ++k;
                     }
 
-                    double number = sin(n);
+                    long double number = sin(convertToRadian(stold(n)));
                     stk.push(number);
                 }
                 else if (tempFunc[1] == 'q')
                 {
                     int k = 5;
-                    double n = 0;
+                    // long double n = 0;
+                    string n = "";
                     while (tempFunc[k] != ')')
                     {
-                        n = n * 10 + double(tempFunc[k] - '0');
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
                         ++k;
                     }
 
-                    double number = sqrt(n);
+                    long double number = sqrt(stold(n));
                     stk.push(number);
                 }
             }
@@ -514,62 +598,132 @@ double Infix::evaluatePostfix()
                 if (tempFunc[2] == 's')
                 {
                     int k = 4;
-                    double n = 0;
+                    // long double n = 0;
+                    string n = "";
                     while (tempFunc[k] != ')')
                     {
-                        n = n * 10 + double(tempFunc[k] - '0');
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
                         ++k;
                     }
 
-                    double number = cos(n);
+                    long double number = cos(convertToRadian(stold(n)));
                     stk.push(number);
                 }
                 else if (tempFunc[2] == 't')
                 {
                     int k = 4;
-                    double n = 0;
+                    // long double n = 0;
+                    string n = "";
                     while (tempFunc[k] != ')')
                     {
-                        n = n * 10 + double(tempFunc[k] - '0');
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
                         ++k;
                     }
 
-                    double number = cot(n);
+                    long double number = cot(convertToRadian(stold(n)));
                     stk.push(number);
                 }
             }
             else if (tempFunc[0] == 't')
             {
                 int k = 4;
-                double n = 0;
+                // long double n = 0;
+                string n = "";
                 while (tempFunc[k] != ')')
                 {
-                    n = n * 10 + double(tempFunc[k] - '0');
+                    // n = n * 10 + long double(tempFunc[k] - '0');
+                    n += tempFunc[k];
                     ++k;
                 }
 
-                double number = tan(n);
+                long double number = tan(convertToRadian(stold(n)));
                 stk.push(number);
             }
             else if (tempFunc[0] == 'e')
             {
                 int k = 4;
-                double n = 0;
+                // long double n = 0;
+                string n = "";
                 while (tempFunc[k] != ')')
                 {
-                    n = n * 10 + double(tempFunc[k] - '0');
+                    // n = n * 10 + long double(tempFunc[k] - '0');
+                    n += tempFunc[k];
                     ++k;
                 }
 
-                double number = exp(n);
+                long double number = exp(stold(n));
                 stk.push(number);
+            }
+            else if (tempFunc[0] == 'a') // arcsin(x), arccos, arctan, arccot
+            {
+                if (tempFunc[3] == 's')
+                {
+                    int k = 7;
+                    string n = "";
+                    while (tempFunc[k] != ')')
+                    {
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
+                        ++k;
+                    }
+
+                    long double number = asin(stold(n));
+                    stk.push(number);
+                }
+                else if (tempFunc[3] == 't')
+                {
+                    int k = 7;
+                    string n = "";
+                    while (tempFunc[k] != ')')
+                    {
+                        // n = n * 10 + long double(tempFunc[k] - '0');
+                        n += tempFunc[k];
+                        ++k;
+                    }
+
+                    long double number = atan(stold(n));
+                    stk.push(number);
+                }
+                else if (tempFunc[3] == 'c')
+                {
+                    if (tempFunc[5] == 's')
+                    {
+                        int k = 7;
+                        string n = "";
+                        while (tempFunc[k] != ')')
+                        {
+                            // n = n * 10 + long double(tempFunc[k] - '0');
+                            n += tempFunc[k];
+                            ++k;
+                        }
+
+                        long double number = acos(stold(n));
+                        stk.push(number);
+                    }
+                    else if (tempFunc[5] == 't')
+                    {
+                        int k = 7;
+                        string n;
+                        while (tempFunc[k] != ')')
+                        {
+                            // n = n * 10 + long double(tempFunc[k] - '0');
+                            n += tempFunc[k];
+                            ++k;
+                        }
+
+                        long double number = acot(stold(n));
+                        stk.push(number);
+                    }
+                }
             }
         }
         else
         {
-            double r = stk.top();
+            long double r = stk.top();
             stk.pop();
-            double l = stk.top();
+            long double l = stk.top();
             stk.pop();
             Infix::calculateOp(stk, expr[i], l, r);
         }

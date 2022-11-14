@@ -125,6 +125,10 @@ bool validateTransFunc(
     int count_dot = 0;
     for (int j = begin; j <= end; j++)
     {
+        if (expr[begin] == '-' && j == begin)
+        {
+            continue;
+        }
         if (isdigit(expr[j]) || expr[j] == '.')
         {
             if (expr[j] == '.')

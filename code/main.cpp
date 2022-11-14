@@ -3,6 +3,7 @@
 #include <windowsx.h>
 #include <winuser.h>
 #include <stdio.h>
+#include "Shlwapi.h"
 #include "Expression.cpp"
 #include "Infix.cpp"
 #include "transcendentalFunc.h"
@@ -80,15 +81,11 @@ void open_file(HWND hWnd)
 	ofn.lpstrFile[0] = '\0';
 	ofn.nMaxFile = 100;
 	ofn.lpstrFilter = "Text Files\0*.TXT\0";
-	ofn.nFilterIndex = 2;
+	ofn.nFilterIndex = 1;
 
 	GetOpenFileName(&ofn);
-	// check pathfile exist
-	if (ofn.lpstrFile[0] != '\0')
-	{
-		display_file(ofn.lpstrFile);
-	}
-	// display_file(ofn.lpstrFile);
+
+	display_file(ofn.lpstrFile);
 }
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
@@ -123,7 +120,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 			}
 
 			// TODO: handle negative value of transcendental functions
-			// TODO: check pathfile exist
 
 			Edit_GetText(hInput, input, MAX_SIZE);
 

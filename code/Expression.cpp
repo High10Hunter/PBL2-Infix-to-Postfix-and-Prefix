@@ -116,16 +116,6 @@ string Expression::getExpr()
     return this->expr;
 }
 
-bool Expression::getValid()
-{
-    return this->isValid;
-}
-
-void Expression::setValid(bool valid)
-{
-    this->isValid = valid;
-}
-
 void Expression::inputExpr()
 {
     getline(cin, this->expr);

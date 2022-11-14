@@ -14,7 +14,7 @@ using namespace std;
 #define MAX_SIZE 100000000
 #define GENERATE_BUTTON 1
 #define OPEN_FILE_BUTTON 2
-char input[MAX_SIZE], output[MAX_SIZE];
+char input[MAX_SIZE], postfixOutput[MAX_SIZE], prefixOutput[MAX_SIZE], evaluateOutput[MAX_SIZE];
 
 LRESULT CALLBACK WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
@@ -79,12 +79,16 @@ void open_file(HWND hWnd)
 	ofn.lpstrFile = file_name;
 	ofn.lpstrFile[0] = '\0';
 	ofn.nMaxFile = 100;
-	ofn.lpstrFilter = "All files\0*.*\0Text Files\0*.TXT\0";
+	ofn.lpstrFilter = "Text Files\0*.TXT\0";
 	ofn.nFilterIndex = 2;
 
 	GetOpenFileName(&ofn);
-
-	display_file(ofn.lpstrFile);
+	// check pathfile exist
+	if (ofn.lpstrFile[0] != '\0')
+	{
+		display_file(ofn.lpstrFile);
+	}
+	// display_file(ofn.lpstrFile);
 }
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
@@ -118,6 +122,9 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 				}
 			}
 
+			// TODO: handle negative value of transcendental functions
+			// TODO: check pathfile exist
+
 			Edit_GetText(hInput, input, MAX_SIZE);
 
 			string expr = input;
@@ -125,14 +132,31 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 			expr = Expression::removeBlankSpace(expr);
 			infix.setExpr(expr);
 
-			strcpy(output, infix.infixToPrefix().c_str());
-			SetWindowText(hPrefix, output);
+			try
+			{
+				strcpy(postfixOutput, infix.infixToPostfix().c_str());
+				strcpy(prefixOutput, infix.infixToPrefix().c_str());
+				strcpy(evaluateOutput, to_string(infix.evaluatePostfix()).c_str());
+			}
+			catch (const runtime_error &e)
+			{
+				wstring wsTmp(e.what(), e.what() + strlen(e.what()));
+				const wchar_t *wc = wsTmp.c_str();
 
-			strcpy(output, infix.infixToPostfix().c_str());
-			SetWindowText(hPostfix, output);
+				int choice = MessageBoxW(hWnd, wc, NULL, MB_OK | MB_ICONERROR);
+				switch (choice)
+				{
+				case IDOK:
+					return 0;
+					break;
+				default:
+					break;
+				}
+			}
 
-			strcpy(output, to_string(infix.evaluatePostfix()).c_str());
-			SetWindowText(hEvaluate, output);
+			SetWindowText(hPostfix, postfixOutput);
+			SetWindowText(hPrefix, prefixOutput);
+			SetWindowText(hEvaluate, evaluateOutput);
 
 			break;
 		}

@@ -8,13 +8,10 @@ class Expression
 {
 protected:
     string expr;
-    bool isValid;
 
 public:
     string getExpr();
     void setExpr(string new_expr);
-    bool getValid();
-    void setValid(bool);
     void inputExpr();
     void inputExprFile();
     void outputExpr();

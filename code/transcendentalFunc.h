@@ -6,14 +6,14 @@
 #include <math.h>
 using namespace std;
 
+long double Log(long double r, long double n) // log n with base r
+{
+    return log(n) / log(r);
+}
+
 long double convertToRadian(long double degree)
 {
     return degree * M_PI / 180;
-}
-
-long double Log(long double r, long double n) 
-{
-    return log(n) / log(r);
 }
 
 long double cot(long double x)

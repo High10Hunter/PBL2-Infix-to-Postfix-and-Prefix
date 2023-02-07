@@ -1,4 +1,4 @@
-# PBL2-Infix-to-Postfix-and-Prefix ➕➖✖➗⁉
+# Infix to Postfix and Prefix ➕➖✖➗⁉
 Project of PBL2 at Da Nang University of Technology
 
 # Feature: 
